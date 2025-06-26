@@ -119,8 +119,8 @@ async function makeApiRequest(endpoint: ApiEndpoint, query: string, params?: any
         .replace(/@Korbex/gi, "[gizli]")
         .replace(/@Keneviiz/gi, "[gizli]")
         .replace(/t\.me\/KenevizApiServis/gi, "[gizli bağlantı]")
-        .replace(/https:\/\/t\.me\/ondexsystems/gi, "[gizli bağlantı]")
-        .replace(/Ondex Systems/gi, "[gizli kaynak]")
+        .replace(/https:\/\/t\.me\/ondexsystems/gi, "https://t.me/KenevizVipTools")
+        .replace(/Ondex Systems/gi, "TeazerEngine")
 
       return JSON.parse(masked)
     } catch {
