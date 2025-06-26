@@ -104,15 +104,41 @@ async function makeApiRequest(endpoint: ApiEndpoint, query: string, params?: any
 
     const data = await response.text()
 
+    let parsed: any
     try {
-      return JSON.parse(data)
+      parsed = JSON.parse(data)
+
+      // Belirli alanları temizle
+      const forbiddenKeys = ["Developer", "Author", "Telegram"]
+      for (const key of forbiddenKeys) {
+        if (parsed[key]) delete parsed[key]
+      }
+
+      // JSON içinde string olarak saklanan gizli içerikleri maskele
+      const masked = JSON.stringify(parsed)
+        .replace(/@Korbex/gi, "[gizli]")
+        .replace(/@Keneviiz/gi, "[gizli]")
+        .replace(/t\.me\/KenevizApiServis/gi, "[gizli bağlantı]")
+        .replace(/https:\/\/t\.me\/ondexsystems/gi, "[gizli bağlantı]")
+        .replace(/Ondex Systems/gi, "[gizli kaynak]")
+
+      return JSON.parse(masked)
     } catch {
-      return { result: data, raw_response: true }
+      // JSON parse edilemiyorsa sadece düz metin olarak dön
+      const maskedText = data
+        .replace(/@Korbex/gi, "[gizli]")
+        .replace(/@Keneviiz/gi, "[gizli]")
+        .replace(/t\.me\/KenevizApiServis/gi, "[gizli bağlantı]")
+        .replace(/https:\/\/t\.me\/ondexsystems/gi, "[gizli bağlantı]")
+        .replace(/Ondex Systems/gi, "[gizli kaynak]")
+
+      return { result: maskedText, raw_response: true }
     }
   } catch (error) {
     return { error: error instanceof Error ? error.message : "API request failed", endpoint: endpoint.name }
   }
 }
+
 
 export async function POST(request: NextRequest) {
   try {
