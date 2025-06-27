@@ -3,8 +3,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Teazer Sorgu AI',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  description: 'Created with TeazerEngine',
+  generator: 'TeazerEngine',
 }
 
 export default function RootLayout({
